@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Reservation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        #reservation {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .contact-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #e67e22;
+            box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        #messageContainer {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #e67e22;
+        }
+        
+        @media (max-width: 768px) {
+            #reservation {
+                margin: 20px auto;
+                padding: 10px;
+            }
+            
+            .contact-form {
+                padding: 25px;
+            }
+            
+            h3 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="reservation">
+        <div class="contact-form">
+            <div id="messageContainer"></div>
+            <div class="loading" id="loading">Sending reservation...</div>
+            
+            <form id="reservationForm">
+                <h3>Reservation Form</h3>
+
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" class="form-control" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" class="form-control" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone *</label>
+                    <input type="tel" id="phone" class="form-control" required placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date *</label>
+                    <input type="date" id="date" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Time *</label>
+                    <input type="time" id="time" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">Number of Guests *</label>
+                    <select id="guests" class="form-control" required>
+                        <option value="" disabled selected>Select number of guests</option>
+                        <option value="1">1 Person</option>
+                        <option value="2">2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4">4 People</option>
+                        <option value="5">5 People</option>
+                        <option value="6">6 People</option>
+                        <option value="7">7+ People</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customGuestDiv" style="display:none;">
+                    <label for="customGuests">Enter Number *</label>
+                    <input type="number" id="customGuests" class="form-control" min="1" placeholder="Enter number of guests">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Order Details / Special Requests *</label>
+                    <textarea id="message" class="form-control" placeholder="Type your order details or special requests..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Send Reservation</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Show/hide custom guests input
+        document.getElementById('guests').addEventListener('change', function() {
+            const customGuestDiv = document.getElementById('customGuestDiv');
+            if (this.value === 'custom') {
+                customGuestDiv.style.display = 'block';
+                document.getElementById('customGuests').required = true;
+            } else {
+                customGuestDiv.style.display = 'none';
+                document.getElementById('customGuests').required = false;
+            }
+        });
+
+        // Form submission
+        document.getElementById('reservationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            let guests = document.getElementById('guests').value;
+            const message = document.getElementById('message').value;
+            
+            // Handle custom guests
+            if (guests === 'custom') {
+                guests = document.getElementById('customGuests').value;
+                if (!guests || guests < 1) {
+                    showMessage('Please enter a valid number of guests', 'error');
+                    return;
+                }
+            }
+            
+            // Validate date (not in the past)
+            const selectedDate = new Date(date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                showMessage('Please select a future date', 'error');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Prepare data
+            const formData = {
+                name: name,
+                email: email,
+                phone: phone,
+                date: date,
+                time: time,
+                guests: guests,
+                message: message,
+                timestamp: new Date().toISOString()
+            };
+            
+            try {
+                // Send to backend API
+                const response = await fetch('/api/reservation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Success
+                    showMessage(`Thank you ${name}! Your reservation has been submitted. A confirmation email has been sent to ${email}`, 'success');
+                    document.getElementById('reservationForm').reset();
+                    document.getElementById('customGuestDiv').style.display = 'none';
+                } else {
+                    // Error from server
+                    showMessage(result.error || 'Failed to submit reservation. Please try again.', 'error');
+                }
+            } catch (error) {
+                // Network error
+                console.error('Error:', error);
+                showMessage('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+        
+        // Function to show messages
+        function showMessage(text, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.textContent = text;
+            messageContainer.className = type;
+            messageContainer.style.display = 'block';
+            
+            // Auto-hide after 10 seconds for success, 5 for error
+            setTimeout(() => {
+                if (messageContainer.style.display === 'block') {
+                    messageContainer.style.display = 'none';
+                }
+            }, type === 'success' ? 10000 : 5000);
+        }
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').min = today;
+        
+        // Set default time to next hour
+        const nextHour = new Date();
+        nextHour.setHours(nextHour.getHours() + 1);
+        document.getElementById('time').value = nextHour.toTimeString().substring(0, 5);
+    </script>
+</body>
+</html>
