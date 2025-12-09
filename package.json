@@ -1,0 +1,16 @@
+{
+  "name": "restaurant-reservation",
+  "version": "1.0.0",
+  "description": "Restaurant reservation system",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  },
+  "devDependencies": {
+    "vercel": "^28.0.0"
+  }
+}
