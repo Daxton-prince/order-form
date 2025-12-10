@@ -6,6 +6,6 @@
     "node": "24.x"
   },
   "dependencies": {
-    "nodemailer": "^6.9.13"
+    "resend": "^2.0.0"
   }
 }
