@@ -44,7 +44,6 @@ module.exports = async (req, res) => {
     }
 
     // Get environment variables
-    // You'll need to set these in Vercel dashboard
     const restaurantEmail = process.env.RESTAURANT_EMAIL;
     const emailPassword = process.env.EMAIL_PASSWORD;
     const emailService = process.env.EMAIL_SERVICE || 'gmail';
@@ -156,7 +155,7 @@ module.exports = async (req, res) => {
     await transporter.sendMail(restaurantMailOptions);
     await transporter.sendMail(customerMailOptions);
 
-    // Log success (optional - for Vercel logs)
+    // Log success
     console.log(`Reservation submitted: ${name} - ${email} - ${date} ${time}`);
 
     return res.status(200).json({ 
