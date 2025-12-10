@@ -1,8 +1,18 @@
 {
   "name": "restaurant-reservation",
   "version": "1.0.0",
-  "private": true,
+  "description": "Restaurant reservation system",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
   "dependencies": {
     "nodemailer": "^6.9.13"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
   }
 }
